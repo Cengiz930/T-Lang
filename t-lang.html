@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Lang | Türkçe Programlama Dili</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --terminal-bg: #0a0a0a;
+            --text-color: #e0e0e0;
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --error-color: #f44336;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--terminal-bg);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .terminal {
+            background-color: var(--terminal-bg);
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .btn-red { background-color: #ff5f56; }
+        .btn-yellow { background-color: #ffbd2e; }
+        .btn-green { background-color: #27c93f; }
+        
+        .terminal-title {
+            margin-left: 1rem;
+            color: #888;
+        }
+        
+        .terminal-body {
+            min-height: 300px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .prompt {
+            color: var(--primary-color);
+        }
+        
+        .command-line {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+        
+        #command-input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            flex-grow: 1;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        .output {
+            margin-bottom: 1rem;
+            white-space: pre-wrap;
+        }
+        
+        .error {
+            color: var(--error-color);
+        }
+        
+        .success {
+            color: var(--primary-color);
+        }
+        
+        .info {
+            color: var(--secondary-color);
+        }
+        
+        .commands-section {
+            background-color: var(--terminal-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 2rem 0;
+        }
+        
+        .command-card {
+            background-color: #252525;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .command-name {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .command-desc {
+            margin-bottom: 0.5rem;
+        }
+        
+        .command-example {
+            background-color: #333;
+            padding: 0.5rem;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--terminal-bg);
+            margin-top: 2rem;
+            border-top: 3px solid var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>T-Lang</h1>
+        <p>Tamamen Türkçe, Basit Programlama Dili</p>
+    </header>
+    
+    <div class="container">
+        <section>
+            <h2>Hoş Geldiniz!</h2>
+            <p>T-Lang, herkesin kolayca öğrenebileceği tamamen Türkçe komutlardan oluşan bir programlama dilidir. Aşağıdaki terminali kullanarak T-Lang komutlarını deneyebilirsiniz.</p>
+        </section>
+        
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-btn btn-red"></div>
+                <div class="terminal-btn btn-yellow"></div>
+                <div class="terminal-btn btn-green"></div>
+                <div class="terminal-title">T-Lang Terminali</div>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+                <div class="output info">
+                    T-Lang Terminali v1.0<br>
+                    Yardım için "yardım" yazın.
+                </div>
+                <div class="output prompt">> <span class="success">merhaba_dunya</span></div>
+                <div class="output">Merhaba Dünya!</div>
+                <div class="output prompt">> <span class="success">ekrana_yazdır "T-Lang'e Hoş Geldiniz"</span></div>
+                <div class="output">T-Lang'e Hoş Geldiniz</div>
+            </div>
+            <div class="command-line">
+                <span class="prompt">></span>
+                <input type="text" id="command-input" placeholder="Komut girin..." autofocus>
+            </div>
+        </div>
+        
+        <section class="commands-section">
+            <h2>Temel Komutlar</h2>
+            <p>İşte T-Lang'in temel 10 komutu:</p>
+            
+            <div class="command-card">
+                <div class="command-name">ekrana_yazdır &lt;metin&gt;</div>
+                <div class="command-desc">Ekrana belirtilen metni yazdırır.</div>
+                <div class="command-example">Örnek: ekrana_yazdır "Merhaba Dünya"</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">değişken &lt;ad&gt; = &lt;değer&gt;</div>
+                <div class="command-desc">Yeni bir değişken oluşturur.</div>
+                <div class="command-example">Örnek: değişken isim = "Ahmet"</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">eğer &lt;koşul&gt; { ... }</div>
+                <div class="command-desc">Koşul sağlanıyorsa belirtilen işlemleri yapar.</div>
+                <div class="command-example">Örnek: eğer yaş >= 18 { ekrana_yazdır "Reşitsiniz" }</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">döngü &lt;sayı&gt; { ... }</div>
+                <div class="command-desc">Belirtilen sayı kadar döngü çalıştırır.</div>
+                <div class="command-example">Örnek: döngü 5 { ekrana_yazdır "Merhaba" }</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">fonksiyon &lt;ad&gt; { ... }</div>
+                <div class="command-desc">Yeni bir fonksiyon tanımlar.</div>
+                <div class="command-example">Örnek: fonksiyon selamla { ekrana_yazdır "Merhaba!" }</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">çalıştır &lt;fonksiyon_adı&gt;</div>
+                <div class="command-desc">Tanımlı bir fonksiyonu çalıştırır.</div>
+                <div class="command-example">Örnek: çalıştır selamla</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">liste &lt;ad&gt; = [değer1, değer2, ...]</div>
+                <div class="command-desc">Yeni bir liste oluşturur.</div>
+                <div class="command-example">Örnek: liste meyveler = ["elma", "armut", "muz"]</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">girdi_al &lt;değişken_adı&gt;</div>
+                <div class="command-desc">Kullanıcıdan girdi alır ve belirtilen değişkene atar.</div>
+                <div class="command-example">Örnek: girdi_al kullanici_adi</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">döngü_iken &lt;koşul&gt; { ... }</div>
+                <div class="command-desc">Koşul sağlandığı sürece döngüyü çalıştırır.</div>
+                <div class="command-example">Örnek: döngü_iken sayi < 10 { ekrana_yazdır sayi }</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">yardım</div>
+                <div class="command-desc">Tüm komutları listeler.</div>
+                <div class="command-example">Örnek: yardım</div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Nasıl Kullanılır?</h2>
+            <p>T-Lang'i kullanmak çok kolay! Yukarıdaki terminale komutları yazıp Enter tuşuna basmanız yeterli. Örneğin:</p>
+            <div class="command-example">ekrana_yazdır "Programlamaya hoş geldiniz!"</div>
+            <p>Komutlar tamamen Türkçe olduğu için anlaması ve kullanması çok kolay.</p>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2025 T-Lang | Türkçe Programlama Dili</p>
+    </footer>
+
+    <script>
+        const terminalOutput = document.getElementById('terminal-output');
+        const commandInput = document.getElementById('command-input');
+        
+        
+        const variables = {};
+        const functions = {};
+        
+        
+        let commandHistory = [];
+        let historyIndex = -1;
+        
+        
+        function processCommand(command) {
+            if (!command.trim()) return;
+            
+            
+            addToTerminal(`> ${command}`, 'prompt');
+            
+            try {
+                const result = executeCommand(command);
+                if (result !== undefined) {
+                    addToTerminal(result);
+                }
+            } catch (error) {
+                addToTerminal(error.message, 'error');
+            }
+            
+            
+            commandHistory.push(command);
+            historyIndex = commandHistory.length;
+        }
+        
+        
+        function executeCommand(command) {
+            const parts = command.split(' ');
+            const cmd = parts[0];
+            const args = parts.slice(1).join(' ');
+            
+            switch (cmd) {
+                case 'ekrana_yazdır':
+                    return args.replace(/^"|"$/g, '');
+                
+                case 'değişken':
+                    const varParts = args.split('=').map(part => part.trim());
+                    if (varParts.length !== 2) throw new Error('Hatalı değişken tanımı');
+                    variables[varParts[0]] = evalValue(varParts[1]);
+                    return `${varParts[0]} değişkeni oluşturuldu: ${variables[varParts[0]]}`;
+                
+                case 'eğer':
+                    
+                    const condition = args.split('{')[0].trim();
+                    const block = args.match(/\{(.+)\}/)?.[1].trim();
+                    
+                    if (evalCondition(condition)) {
+                        return executeCommand(block);
+                    }
+                    return;
+                
+                case 'döngü':
+                    const loopParts = args.split('{');
+                    const count = parseInt(loopParts[0].trim());
+                    const loopBlock = loopParts[1].replace('}', '').trim();
+                    
+                    let loopResult = '';
+                    for (let i = 0; i < count; i++) {
+                        loopResult += executeCommand(loopBlock) + '\n';
+                    }
+                    return loopResult.trim();
+                
+                case 'fonksiyon':
+                    const funcParts = args.split('{');
+                    const funcName = funcParts[0].trim();
+                    const funcBlock = funcParts[1].replace('}', '').trim();
+                    
+                    functions[funcName] = funcBlock;
+                    return `${funcName} fonksiyonu tanımlandı`;
+                
+                case 'çalıştır':
+                    if (!functions[args]) throw new Error(`Tanımsız fonksiyon: ${args}`);
+                    return executeCommand(functions[args]);
+                
+                case 'liste':
+                    const listParts = args.split('=').map(part => part.trim());
+                    if (listParts.length !== 2) throw new Error('Hatalı liste tanımı');
+                    variables[listParts[0]] = eval(listParts[1]);
+                    return `${listParts[0]} listesi oluşturuldu: ${JSON.stringify(variables[listParts[0]])}`;
+                
+                case 'girdi_al':
+                    const varName = args.trim();
+                    const value = prompt(`${varName} için değer girin:`);
+                    variables[varName] = value;
+                    return `${varName} = ${value}`;
+                
+                case 'döngü_iken':
+                    const whileParts = args.split('{');
+                    const whileCond = whileParts[0].trim();
+                    const whileBlock = whileParts[1].replace('}', '').trim();
+                    
+                    let whileResult = '';
+                    while (evalCondition(whileCond)) {
+                        whileResult += executeCommand(whileBlock) + '\n';
+                    }
+                    return whileResult.trim();
+                
+                case 'yardım':
+                    return `Kullanılabilir komutlar:
+- ekrana_yazdır "metin"
+- değişken ad = değer
+- eğer koşul { komut }
+- döngü sayı { komut }
+- fonksiyon ad { komutlar }
+- çalıştır fonksiyon_adı
+- liste ad = [değer1, değer2, ...]
+- girdi_al değişken_adı
+- döngü_iken koşul { komut }
+- yardım`;
+                
+                case 'merhaba_dunya':
+                    return 'Merhaba Dünya!';
+                
+                case 'temizle':
+                    terminalOutput.innerHTML = '';
+                    return;
+                
+                default:
+                    if (command in variables) {
+                        return variables[command];
+                    } else if (command in functions) {
+                        return executeCommand(functions[command]);
+                    } else {
+                        throw new Error(`Tanımsız komut: ${cmd}`);
+                    }
+            }
+        }
+        
+        
+        function evalValue(value) {
+            if (value.startsWith('"') && value.endsWith('"')) {
+                return value.slice(1, -1);
+            } else if (!isNaN(value)) {
+                return parseFloat(value);
+            } else if (value in variables) {
+                return variables[value];
+            } else if (value === 'doğru') {
+                return true;
+            } else if (value === 'yanlış') {
+                return false;
+            }
+            return value;
+        }
+        
+        
+        function evalCondition(condition) {
+            const operators = ['>=', '<=', '!=', '==', '>', '<'];
+            let op = '';
+            let parts = [];
+            
+            for (const operator of operators) {
+                if (condition.includes(operator)) {
+                    op = operator;
+                    parts = condition.split(operator).map(part => part.trim());
+                    break;
+                }
+            }
+            
+            if (!op) return evalValue(condition);
+            
+            const left = evalValue(parts[0]);
+            const right = evalValue(parts[1]);
+            
+            switch (op) {
+                case '>': return left > right;
+                case '<': return left < right;
+                case '>=': return left >= right;
+                case '<=': return left <= right;
+                case '==': return left == right;
+                case '!=': return left != right;
+                default: return false;
+            }
+        }
+        
+        
+        function addToTerminal(text, className = '') {
+            const div = document.createElement('div');
+            div.className = `output ${className}`;
+            div.textContent = text;
+            terminalOutput.appendChild(div);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+        
+        
+        commandInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                processCommand(commandInput.value);
+                commandInput.value = '';
+            }
+        });
+        
+        
+        commandInput.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' && commandHistory.length > 0) {
+                e.preventDefault();
+                if (historyIndex > 0) historyIndex--;
+                if (historyIndex >= 0) {
+                    commandInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown' && commandHistory.length > 0) {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) historyIndex++;
+                if (historyIndex < commandHistory.length) {
+                    commandInput.value = commandHistory[historyIndex] || '';
+                } else {
+                    commandInput.value = '';
+                }
+            }
+        });
+        
+        
+        window.addEventListener('load', () => {
+            commandInput.focus();
+        });
+    </script>
+</body>
+</html>
